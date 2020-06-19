@@ -22,3 +22,5 @@ print(i in l)
 i = 5
 print(i in l)
 print(i not in l)
+print(id(i))
+print(id(j))
