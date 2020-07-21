@@ -1,0 +1,25 @@
+[ed_eleho@gw02 ~]$ sqoop list-databases \
+>   --connect jdbc:mysql://ms.itversity.com:3306 \
+>   --username retail_user \
+>   -P
+20/07/21 13:50:53 INFO sqoop.Sqoop: Running Sqoop version: 1.4.6.2.6.5.0-292
+Enter password:
+20/07/21 13:51:01 INFO manager.MySQLManager: Preparing to use a MySQL streaming resultset.
+information_schema
+retail_db
+retail_export
+[ed_eleho@gw02 ~]$ sqoop list-tables \
+>   --connect jdbc:mysql://ms.itversity.com:3306/retail_db \
+>   --username retail_user \
+>   -P
+20/07/21 13:52:02 INFO sqoop.Sqoop: Running Sqoop version: 1.4.6.2.6.5.0-292
+Enter password:
+20/07/21 13:52:09 INFO manager.MySQLManager: Preparing to use a MySQL streaming resultset.
+categories
+customers
+departments
+order_items
+order_items_nopk
+orders
+products
+[ed_eleho@gw02 ~]$ 
