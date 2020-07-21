@@ -1,0 +1,22 @@
+[ed_eleho@gw02 ~]$ sqoop eval \
+>   --connect jdbc:mysql://ms.itversity.com:3306/retail_db \
+>   --username retail_user \
+>   -P \
+>   --query "SELECT * FROM orders LIMIT 10"
+20/07/21 14:14:28 INFO sqoop.Sqoop: Running Sqoop version: 1.4.6.2.6.5.0-292
+Enter password:
+20/07/21 14:14:36 INFO manager.MySQLManager: Preparing to use a MySQL streaming resultset.
+--------------------------------------------------------------------------
+| order_id    | order_date          | order_customer_id | order_status         |
+--------------------------------------------------------------------------
+| 1           | 2013-07-25 00:00:00.0 | 11599       | CLOSED               |
+| 2           | 2013-07-25 00:00:00.0 | 256         | PENDING_PAYMENT      |
+| 3           | 2013-07-25 00:00:00.0 | 12111       | COMPLETE             |
+| 4           | 2013-07-25 00:00:00.0 | 8827        | CLOSED               |
+| 5           | 2013-07-25 00:00:00.0 | 11318       | COMPLETE             |
+| 6           | 2013-07-25 00:00:00.0 | 7130        | COMPLETE             |
+| 7           | 2013-07-25 00:00:00.0 | 4530        | COMPLETE             |
+| 8           | 2013-07-25 00:00:00.0 | 2911        | PROCESSING           |
+| 9           | 2013-07-25 00:00:00.0 | 5657        | PENDING_PAYMENT      |
+| 10          | 2013-07-25 00:00:00.0 | 5648        | PENDING_PAYMENT      |
+--------------------------------------------------------------------------
