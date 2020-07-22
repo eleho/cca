@@ -1,0 +1,203 @@
+[ed_eleho@gw02 ~]$ sqoop import \
+>   --connect jdbc:mysql://ms.itversity.com:3306/retail_db \
+>   --username retail_user \
+>   -P \
+>   --table order_items \
+>   --warehouse-dir /user/ed_eleho/sqoop_import/retail_db
+20/07/22 10:03:55 INFO sqoop.Sqoop: Running Sqoop version: 1.4.6.2.6.5.0-292
+Enter password:
+20/07/22 10:04:02 INFO manager.MySQLManager: Preparing to use a MySQL streaming resultset.
+20/07/22 10:04:02 INFO tool.CodeGenTool: Beginning code generation
+20/07/22 10:04:03 INFO manager.SqlManager: Executing SQL statement: SELECT t.* FROM `order_items` AS t LIMIT 1
+20/07/22 10:04:03 INFO manager.SqlManager: Executing SQL statement: SELECT t.* FROM `order_items` AS t LIMIT 1
+20/07/22 10:04:03 INFO orm.CompilationManager: HADOOP_MAPRED_HOME is /usr/hdp/2.6.5.0-292/hadoop-mapreduce
+Note: /tmp/sqoop-ed_eleho/compile/32301b9e38969ac164615e901155dded/order_items.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+20/07/22 10:04:05 INFO orm.CompilationManager: Writing jar file: /tmp/sqoop-ed_eleho/compile/32301b9e38969ac164615e901155dded/order_items.jar
+20/07/22 10:04:05 WARN manager.MySQLManager: It looks like you are importing from mysql.
+20/07/22 10:04:05 WARN manager.MySQLManager: This transfer can be faster! Use the --direct
+20/07/22 10:04:05 WARN manager.MySQLManager: option to exercise a MySQL-specific fast path.
+20/07/22 10:04:05 INFO manager.MySQLManager: Setting zero DATETIME behavior to convertToNull (mysql)
+20/07/22 10:04:05 INFO mapreduce.ImportJobBase: Beginning import of order_items
+20/07/22 10:04:06 INFO client.RMProxy: Connecting to ResourceManager at rm01.itversity.com/172.16.1.106:8050
+20/07/22 10:04:06 INFO client.AHSProxy: Connecting to Application History server at rm01.itversity.com/172.16.1.106:10200
+20/07/22 10:04:07 ERROR tool.ImportTool: Encountered IOException running import job: org.apache.hadoop.mapred.FileAlreadyExistsException: Output directory hdfs://nn01.itversity.com:8020/user/ed_eleho/sqoop_import/retail_db/order_items already exists
+        at org.apache.hadoop.mapreduce.lib.output.FileOutputFormat.checkOutputSpecs(FileOutputFormat.java:146)
+        at org.apache.hadoop.mapreduce.JobSubmitter.checkSpecs(JobSubmitter.java:266)
+        at org.apache.hadoop.mapreduce.JobSubmitter.submitJobInternal(JobSubmitter.java:139)
+        at org.apache.hadoop.mapreduce.Job$10.run(Job.java:1290)
+        at org.apache.hadoop.mapreduce.Job$10.run(Job.java:1287)
+        at java.security.AccessController.doPrivileged(Native Method)
+        at javax.security.auth.Subject.doAs(Subject.java:422)
+        at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1869)
+        at org.apache.hadoop.mapreduce.Job.submit(Job.java:1287)
+        at org.apache.hadoop.mapreduce.Job.waitForCompletion(Job.java:1308)
+        at org.apache.sqoop.mapreduce.ImportJobBase.doSubmitJob(ImportJobBase.java:200)
+        at org.apache.sqoop.mapreduce.ImportJobBase.runJob(ImportJobBase.java:173)
+        at org.apache.sqoop.mapreduce.ImportJobBase.runImport(ImportJobBase.java:270)
+        at org.apache.sqoop.manager.SqlManager.importTable(SqlManager.java:692)
+        at org.apache.sqoop.manager.MySQLManager.importTable(MySQLManager.java:127)
+        at org.apache.sqoop.tool.ImportTool.importTable(ImportTool.java:507)
+        at org.apache.sqoop.tool.ImportTool.run(ImportTool.java:615)
+        at org.apache.sqoop.Sqoop.run(Sqoop.java:147)
+        at org.apache.hadoop.util.ToolRunner.run(ToolRunner.java:76)        at org.apache.sqoop.Sqoop.runSqoop(Sqoop.java:183)        at org.apache.sqoop.Sqoop.runTool(Sqoop.java:225)
+        at org.apache.sqoop.Sqoop.runTool(Sqoop.java:234)
+        at org.apache.sqoop.Sqoop.main(Sqoop.java:243)
+
+[ed_eleho@gw02 ~]$ hadoop fs -rm -R /user/ed_eleho/sqoop_import/retail_db/order_items20/07/22 10:06:02 INFO fs.TrashPolicyDefault: Moved: 'hdfs://nn01.itversity.com:8020/user/ed_eleho/sqoop_import/retail_db/order_items' to trash at: hdfs://nn01.itversity.com:8020/user/ed_eleho/.Trash/Current/user/ed_eleho/sqoop_import/retail_db/order_items
+[ed_eleho@gw02 ~]$ sqoop import \
+>   --connect jdbc:mysql://ms.itversity.com:3306/retail_db \
+>   --username retail_user \
+>   -P \
+>   --table order_items \
+>   --warehouse-dir /user/ed_eleho/sqoop_import/retail_db
+20/07/22 10:07:00 INFO sqoop.Sqoop: Running Sqoop version: 1.4.6.2.6.5.0-292
+Enter password:
+20/07/22 10:07:07 INFO manager.MySQLManager: Preparing to use a MySQL streaming resultset.
+20/07/22 10:07:07 INFO tool.CodeGenTool: Beginning code generation
+20/07/22 10:07:09 INFO manager.SqlManager: Executing SQL statement: SELECT t.* FROM `order_items` AS t LIMIT 1
+20/07/22 10:07:09 INFO manager.SqlManager: Executing SQL statement: SELECT t.* FROM `order_items` AS t LIMIT 1
+20/07/22 10:07:09 INFO orm.CompilationManager: HADOOP_MAPRED_HOME is /usr/hdp/2.6.5.0-292/hadoop-mapreduce
+Note: /tmp/sqoop-ed_eleho/compile/ef14821cb27cdf2925e1240317ac110a/order_items.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+20/07/22 10:07:11 INFO orm.CompilationManager: Writing jar file: /tmp/sqoop-ed_eleho/compile/ef14821cb27cdf2925e1240317ac110a/order_items.jar
+20/07/22 10:07:11 WARN manager.MySQLManager: It looks like you are importing from mysql.
+20/07/22 10:07:11 WARN manager.MySQLManager: This transfer can be faster! Use the --direct
+20/07/22 10:07:11 WARN manager.MySQLManager: option to exercise a MySQL-specific fast path.
+20/07/22 10:07:11 INFO manager.MySQLManager: Setting zero DATETIME behavior to convertToNull (mysql)
+20/07/22 10:07:11 INFO mapreduce.ImportJobBase: Beginning import of order_items
+20/07/22 10:07:12 INFO client.RMProxy: Connecting to ResourceManager at rm01.itversity.com/172.16.1.106:8050
+20/07/22 10:07:12 INFO client.AHSProxy: Connecting to Application History server at rm01.itversity.com/172.16.1.106:10200
+20/07/22 10:07:19 INFO db.DBInputFormat: Using read commited transaction isolation
+20/07/22 10:07:19 INFO db.DataDrivenDBInputFormat: BoundingValsQuery: SELECT MIN(`order_item_id`), MAX(`order_item_id`) FROM `order_items`
+20/07/22 10:07:19 INFO db.IntegerSplitter: Split size: 43049; Num splits: 4 from: 1 to: 172198
+20/07/22 10:07:19 INFO mapreduce.JobSubmitter: number of splits:4
+20/07/22 10:07:19 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1589064448439_27796
+20/07/22 10:07:20 INFO impl.YarnClientImpl: Submitted application application_1589064448439_27796
+20/07/22 10:07:20 INFO mapreduce.Job: The url to track the job: http://rm01.itversity.com:19088/proxy/application_1589064448439_27796/
+20/07/22 10:07:20 INFO mapreduce.Job: Running job: job_1589064448439_27796
+20/07/22 10:07:27 INFO mapreduce.Job: Job job_1589064448439_27796 running in uber mode : false
+20/07/22 10:07:27 INFO mapreduce.Job:  map 0% reduce 0%
+20/07/22 10:07:33 INFO mapreduce.Job:  map 25% reduce 0%
+20/07/22 10:07:34 INFO mapreduce.Job:  map 100% reduce 0%
+20/07/22 10:07:35 INFO mapreduce.Job: Job job_1589064448439_27796 completed successfully
+20/07/22 10:07:35 INFO mapreduce.Job: Counters: 30
+        File System Counters
+                FILE: Number of bytes read=0
+                FILE: Number of bytes written=679600
+                FILE: Number of read operations=0
+                FILE: Number of large read operations=0
+                FILE: Number of write operations=0
+                HDFS: Number of bytes read=512
+                HDFS: Number of bytes written=5408880
+                HDFS: Number of read operations=16
+                HDFS: Number of large read operations=0
+                HDFS: Number of write operations=8
+        Job Counters
+                Launched map tasks=4
+                Other local map tasks=4
+                Total time spent by all maps in occupied slots (ms)=34802
+                Total time spent by all reduces in occupied slots (ms)=0
+                Total time spent by all map tasks (ms)=17401
+                Total vcore-milliseconds taken by all map tasks=17401
+                Total megabyte-milliseconds taken by all map tasks=35637248
+        Map-Reduce Framework
+                Map input records=172198
+                Map output records=172198
+                Input split bytes=512
+                Spilled Records=0
+                Failed Shuffles=0
+                Merged Map outputs=0
+                GC time elapsed (ms)=207
+                CPU time spent (ms)=10220
+                Physical memory (bytes) snapshot=1187749888
+                Virtual memory (bytes) snapshot=15015309312
+                Total committed heap usage (bytes)=1008730112
+        File Input Format Counters
+                Bytes Read=0
+        File Output Format Counters
+                Bytes Written=5408880
+20/07/22 10:07:35 INFO mapreduce.ImportJobBase: Transferred 5.1583 MB in 23.3133 seconds (226.5711 KB/sec)
+20/07/22 10:07:35 INFO mapreduce.ImportJobBase: Retrieved 172198 records.
+[ed_eleho@gw02 ~]$ hadoop fs -ls /user/ed_eleho/sqoop_import/retail_db/order_items
+Found 5 items
+-rw-r--r--   2 ed_eleho hdfs          0 2020-07-22 10:07 /user/ed_eleho/sqoop_import/retail_db/order_items/_SUCCESS
+-rw-r--r--   2 ed_eleho hdfs    1303818 2020-07-22 10:07 /user/ed_eleho/sqoop_import/retail_db/order_items/part-m-00000
+-rw-r--r--   2 ed_eleho hdfs    1343222 2020-07-22 10:07 /user/ed_eleho/sqoop_import/retail_db/order_items/part-m-00001
+-rw-r--r--   2 ed_eleho hdfs    1371917 2020-07-22 10:07 /user/ed_eleho/sqoop_import/retail_db/order_items/part-m-00002
+-rw-r--r--   2 ed_eleho hdfs    1389923 2020-07-22 10:07 /user/ed_eleho/sqoop_import/retail_db/order_items/part-m-00003
+[ed_eleho@gw02 ~]$ hadoop fs -rm -R /user/ed_eleho/sqoop_import/retail_db/order_items
+20/07/22 10:51:45 INFO fs.TrashPolicyDefault: Moved: 'hdfs://nn01.itversity.com:8020/user/ed_eleho/sqoop_import/retail_db/order_items' to trash at: hdfs://nn01.itversity.com:8020/user/ed_eleho/.Trash/Current/user/ed_eleho/sqoop_import/retail_db/order_items1595429505390
+[ed_eleho@gw02 ~]$ sqoop import \
+>   --connect jdbc:mysql://ms.itversity.com:3306/retail_db \
+>   --username retail_user \
+>   -P \
+>   --table order_items \
+>   --warehouse-dir /user/ed_eleho/sqoop_import/retail_db \
+>   --num-mappers 1
+20/07/22 10:52:33 INFO sqoop.Sqoop: Running Sqoop version: 1.4.6.2.6.5.0-292
+Enter password:
+20/07/22 10:52:39 INFO manager.MySQLManager: Preparing to use a MySQL streaming resultset.
+20/07/22 10:52:39 INFO tool.CodeGenTool: Beginning code generation
+20/07/22 10:52:40 INFO manager.SqlManager: Executing SQL statement: SELECT t.* FROM `order_items` AS t LIMIT 1
+20/07/22 10:52:40 INFO manager.SqlManager: Executing SQL statement: SELECT t.* FROM `order_items` AS t LIMIT 1
+20/07/22 10:52:40 INFO orm.CompilationManager: HADOOP_MAPRED_HOME is /usr/hdp/2.6.5.0-292/hadoop-mapreduce
+Note: /tmp/sqoop-ed_eleho/compile/8873e7c0484eb2ff98e4d1cedc8a7dc1/order_items.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+20/07/22 10:52:42 INFO orm.CompilationManager: Writing jar file: /tmp/sqoop-ed_eleho/compile/8873e7c0484eb2ff98e4d1cedc8a7dc1/order_items.jar
+20/07/22 10:52:42 WARN manager.MySQLManager: It looks like you are importing from mysql.
+20/07/22 10:52:42 WARN manager.MySQLManager: This transfer can be faster! Use the --direct
+20/07/22 10:52:42 WARN manager.MySQLManager: option to exercise a MySQL-specific fast path.
+20/07/22 10:52:42 INFO manager.MySQLManager: Setting zero DATETIME behavior to convertToNull (mysql)
+20/07/22 10:52:42 INFO mapreduce.ImportJobBase: Beginning import of order_items
+20/07/22 10:52:43 INFO client.RMProxy: Connecting to ResourceManager at rm01.itversity.com/172.16.1.106:8050
+20/07/22 10:52:43 INFO client.AHSProxy: Connecting to Application History server at rm01.itversity.com/172.16.1.106:10200
+20/07/22 10:52:51 INFO db.DBInputFormat: Using read commited transaction isolation
+20/07/22 10:52:51 INFO mapreduce.JobSubmitter: number of splits:1
+20/07/22 10:52:52 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1589064448439_27828
+20/07/22 10:52:52 INFO impl.YarnClientImpl: Submitted application application_1589064448439_27828
+20/07/22 10:52:52 INFO mapreduce.Job: The url to track the job: http://rm01.itversity.com:19088/proxy/application_1589064448439_27828/
+20/07/22 10:52:52 INFO mapreduce.Job: Running job: job_1589064448439_27828
+20/07/22 10:52:59 INFO mapreduce.Job: Job job_1589064448439_27828 running in uber mode : false
+20/07/22 10:52:59 INFO mapreduce.Job:  map 0% reduce 0%
+20/07/22 10:53:07 INFO mapreduce.Job:  map 100% reduce 0%
+20/07/22 10:53:08 INFO mapreduce.Job: Job job_1589064448439_27828 completed successfully
+20/07/22 10:53:08 INFO mapreduce.Job: Counters: 30
+        File System Counters
+                FILE: Number of bytes read=0
+                FILE: Number of bytes written=169900
+                FILE: Number of read operations=0
+                FILE: Number of large read operations=0
+                FILE: Number of write operations=0
+                HDFS: Number of bytes read=87
+                HDFS: Number of bytes written=5408880
+                HDFS: Number of read operations=4
+                HDFS: Number of large read operations=0
+                HDFS: Number of write operations=2
+        Job Counters
+                Launched map tasks=1
+                Other local map tasks=1
+                Total time spent by all maps in occupied slots (ms)=10750
+                Total time spent by all reduces in occupied slots (ms)=0
+                Total time spent by all map tasks (ms)=5375
+                Total vcore-milliseconds taken by all map tasks=5375
+                Total megabyte-milliseconds taken by all map tasks=11008000
+        Map-Reduce Framework
+                Map input records=172198
+                Map output records=172198
+                Input split bytes=87
+                Spilled Records=0
+                Failed Shuffles=0
+                Merged Map outputs=0
+                GC time elapsed (ms)=67
+                CPU time spent (ms)=4040
+                Physical memory (bytes) snapshot=313847808
+                Virtual memory (bytes) snapshot=3750735872
+                Total committed heap usage (bytes)=251133952
+        File Input Format Counters
+                Bytes Read=0
+        File Output Format Counters
+                Bytes Written=5408880
+20/07/22 10:53:08 INFO mapreduce.ImportJobBase: Transferred 5.1583 MB in 25.3822 seconds (208.1028 KB/sec)
+20/07/22 10:53:08 INFO mapreduce.ImportJobBase: Retrieved 172198 records.
+[ed_eleho@gw02 ~]$ 
