@@ -1,0 +1,190 @@
+[ed_eleho@gw02 ~]$ sqoop list-databases \
+>   --connect jdbc:mysql://ms.itversity.com:3306 \
+>   --username retail_user \
+>   -P
+20/07/22 09:37:13 INFO sqoop.Sqoop: Running Sqoop version: 1.4.6.2.6.5.0-292
+Enter password:
+20/07/22 09:37:21 INFO manager.MySQLManager: Preparing to use a MySQL streaming resultset.
+information_schema
+retail_db
+retail_export
+[ed_eleho@gw02 ~]$ sqoop list-tables \
+>   --connect jdbc:mysql://ms.itversity.com:3306/retail_db \
+>   --username retail_user \
+>   -P
+20/07/22 09:37:52 INFO sqoop.Sqoop: Running Sqoop version: 1.4.6.2.6.5.0-292
+Enter password:
+20/07/22 09:38:00 INFO manager.MySQLManager: Preparing to use a MySQL streaming resultset.
+categories
+customers
+departments
+order_items
+order_items_nopk
+orders
+products
+[ed_eleho@gw02 ~]$ sqoop eval \
+>   --connect jdbc:mysql://ms.itversity.com:3306/retail_db \
+>   --username retail_user \
+>   -P \
+>   --query "SELECT * FROM orders LIMIT 10"
+20/07/22 09:41:12 INFO sqoop.Sqoop: Running Sqoop version: 1.4.6.2.6.5.0-292
+Enter password:
+20/07/22 09:41:21 INFO manager.MySQLManager: Preparing to use a MySQL streaming resultset.
+--------------------------------------------------------------------------
+| order_id    | order_date          | order_customer_id | order_status         |
+--------------------------------------------------------------------------
+| 1           | 2013-07-25 00:00:00.0 | 11599       | CLOSED               |
+| 2           | 2013-07-25 00:00:00.0 | 256         | PENDING_PAYMENT      |
+| 3           | 2013-07-25 00:00:00.0 | 12111       | COMPLETE             |
+| 4           | 2013-07-25 00:00:00.0 | 8827        | CLOSED               |
+| 5           | 2013-07-25 00:00:00.0 | 11318       | COMPLETE             |
+| 6           | 2013-07-25 00:00:00.0 | 7130        | COMPLETE             |
+| 7           | 2013-07-25 00:00:00.0 | 4530        | COMPLETE             |
+| 8           | 2013-07-25 00:00:00.0 | 2911        | PROCESSING           |
+| 9           | 2013-07-25 00:00:00.0 | 5657        | PENDING_PAYMENT      |
+| 10          | 2013-07-25 00:00:00.0 | 5648        | PENDING_PAYMENT      |
+--------------------------------------------------------------------------
+[ed_eleho@gw02 ~]$ sqoop eval \
+>   --connect jdbc:mysql://ms.itversity.com:3306/retail_db \
+>   --username retail_user \
+>   -P \
+>   --query "SELECT * FROM order_items LIMIT 10"
+20/07/22 09:43:08 INFO sqoop.Sqoop: Running Sqoop version: 1.4.6.2.6.5.0-292
+Enter password:
+20/07/22 09:43:17 INFO manager.MySQLManager: Preparing to use a MySQL streaming resultset.
+--------------------------------------------------------------------------------
+| order_item_id | order_item_order_id | order_item_product_id | order_item_quantity | order_item_subtotal | order_item_product_price |
+--------------------------------------------------------------------------------
+| 1           | 1           | 957         | 1    | 299.98       | 299.98       |
+| 2           | 2           | 1073        | 1    | 199.99       | 199.99       |
+| 3           | 2           | 502         | 5    | 250          | 50           |
+| 4           | 2           | 403         | 1    | 129.99       | 129.99       |
+| 5           | 4           | 897         | 2    | 49.98        | 24.99        |
+| 6           | 4           | 365         | 5    | 299.95       | 59.99        |
+| 7           | 4           | 502         | 3    | 150          | 50           |
+| 8           | 4           | 1014        | 4    | 199.92       | 49.98        |
+| 9           | 5           | 957         | 1    | 299.98       | 299.98       |
+| 10          | 5           | 365         | 5    | 299.95       | 59.99        |
+--------------------------------------------------------------------------------
+[ed_eleho@gw02 ~]$ sqoop import \
+>   --connect jdbc:mysql://ms.itversity.com:3306/retail_db \
+>   --username retail_user \
+>   -P \
+>   --table order_items \
+>   --warehouse-dir /user/ed_eleho/sqoop_import/retail_db
+20/07/22 09:49:44 INFO sqoop.Sqoop: Running Sqoop version: 1.4.6.2.6.5.0-292
+Enter password:
+20/07/22 09:49:51 INFO manager.MySQLManager: Preparing to use a MySQL streaming resultset.
+20/07/22 09:49:51 INFO tool.CodeGenTool: Beginning code generation
+20/07/22 09:49:52 INFO manager.SqlManager: Executing SQL statement: SELECT t.* FROM `order_items` AS t LIMIT 1
+20/07/22 09:49:52 INFO manager.SqlManager: Executing SQL statement: SELECT t.* FROM `order_items` AS t LIMIT 1
+20/07/22 09:49:52 INFO orm.CompilationManager: HADOOP_MAPRED_HOME is /usr/hdp/2.6.5.0-292/hadoop-mapreduce
+Note: /tmp/sqoop-ed_eleho/compile/21a258f7d456df7b84eec5c4e46f20d3/order_items.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+20/07/22 09:49:54 INFO orm.CompilationManager: Writing jar file: /tmp/sqoop-ed_eleho/compile/21a258f7d456df7b84eec5c4e46f20d3/order_items.jar
+20/07/22 09:49:54 WARN manager.MySQLManager: It looks like you are importing from mysql.
+20/07/22 09:49:54 WARN manager.MySQLManager: This transfer can be faster! Use the --direct
+20/07/22 09:49:54 WARN manager.MySQLManager: option to exercise a MySQL-specific fast path.
+20/07/22 09:49:54 INFO manager.MySQLManager: Setting zero DATETIME behavior to convertToNull (mysql)
+20/07/22 09:49:54 INFO mapreduce.ImportJobBase: Beginning import of order_items
+20/07/22 09:49:56 INFO client.RMProxy: Connecting to ResourceManager at rm01.itversity.com/172.16.1.106:8050
+20/07/22 09:49:56 INFO client.AHSProxy: Connecting to Application History server at rm01.itversity.com/172.16.1.106:10200
+20/07/22 09:50:02 INFO db.DBInputFormat: Using read commited transaction isolation
+20/07/22 09:50:02 INFO db.DataDrivenDBInputFormat: BoundingValsQuery: SELECT MIN(`order_item_id`), MAX(`order_item_id`) FROM `order_items`
+20/07/22 09:50:02 INFO db.IntegerSplitter: Split size: 43049; Num splits: 4 from: 1 to: 172198
+20/07/22 09:50:03 INFO mapreduce.JobSubmitter: number of splits:4
+20/07/22 09:50:04 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1589064448439_27786
+20/07/22 09:50:05 INFO impl.YarnClientImpl: Submitted application application_1589064448439_27786
+20/07/22 09:50:05 INFO mapreduce.Job: The url to track the job: http://rm01.itversity.com:19088/proxy/application_1589064448439_27786/
+20/07/22 09:50:05 INFO mapreduce.Job: Running job: job_1589064448439_27786
+20/07/22 09:50:13 INFO mapreduce.Job: Job job_1589064448439_27786 running in uber mode : false
+20/07/22 09:50:13 INFO mapreduce.Job:  map 0% reduce 0%
+20/07/22 09:50:18 INFO mapreduce.Job:  map 25% reduce 0%
+20/07/22 09:50:20 INFO mapreduce.Job:  map 100% reduce 0%
+20/07/22 09:50:21 INFO mapreduce.Job: Job job_1589064448439_27786 completed successfully
+20/07/22 09:50:22 INFO mapreduce.Job: Counters: 30
+        File System Counters
+                FILE: Number of bytes read=0
+                FILE: Number of bytes written=679600
+                FILE: Number of read operations=0
+                FILE: Number of large read operations=0
+                FILE: Number of write operations=0
+                HDFS: Number of bytes read=512
+                HDFS: Number of bytes written=5408880
+                HDFS: Number of read operations=16
+                HDFS: Number of large read operations=0
+                HDFS: Number of write operations=8
+        Job Counters
+                Launched map tasks=4
+                Other local map tasks=4
+                Total time spent by all maps in occupied slots (ms)=35690
+                Total time spent by all reduces in occupied slots (ms)=0
+                Total time spent by all map tasks (ms)=17845
+                Total vcore-milliseconds taken by all map tasks=17845
+                Total megabyte-milliseconds taken by all map tasks=36546560
+        Map-Reduce Framework
+                Map input records=172198
+                Map output records=172198
+                Input split bytes=512
+                Spilled Records=0
+                Failed Shuffles=0
+                Merged Map outputs=0
+                GC time elapsed (ms)=194
+                CPU time spent (ms)=11370
+                Physical memory (bytes) snapshot=1125171200
+                Virtual memory (bytes) snapshot=15003111424
+                Total committed heap usage (bytes)=907542528
+        File Input Format Counters
+                Bytes Read=0
+        File Output Format Counters
+                Bytes Written=5408880
+20/07/22 09:50:22 INFO mapreduce.ImportJobBase: Transferred 5.1583 MB in 26.4236 seconds (199.9015 KB/sec)
+20/07/22 09:50:22 INFO mapreduce.ImportJobBase: Retrieved 172198 records.
+[ed_eleho@gw02 ~]$ hadoop fs -ls /user/ed_eleho/sqoop-import/retail_db
+ls: `/user/ed_eleho/sqoop-import/retail_db': No such file or directory
+[ed_eleho@gw02 ~]$ hadoop fs -ls /user/ed_eleho/sqoop_import/retail_db
+Found 1 items
+drwxr-xr-x   - ed_eleho hdfs          0 2020-07-22 09:50 /user/ed_eleho/sqoop_import/retail_db/order_items
+[ed_eleho@gw02 ~]$ hadoop fs -ls /user/ed_eleho/sqoop_import/retail_db/order_items
+Found 5 items
+-rw-r--r--   2 ed_eleho hdfs          0 2020-07-22 09:50 /user/ed_eleho/sqoop_import/retail_db/order_items/_SUCCESS
+-rw-r--r--   2 ed_eleho hdfs    1303818 2020-07-22 09:50 /user/ed_eleho/sqoop_import/retail_db/order_items/part-m-00000
+-rw-r--r--   2 ed_eleho hdfs    1343222 2020-07-22 09:50 /user/ed_eleho/sqoop_import/retail_db/order_items/part-m-00001
+-rw-r--r--   2 ed_eleho hdfs    1371917 2020-07-22 09:50 /user/ed_eleho/sqoop_import/retail_db/order_items/part-m-00002
+-rw-r--r--   2 ed_eleho hdfs    1389923 2020-07-22 09:50 /user/ed_eleho/sqoop_import/retail_db/order_items/part-m-00003
+[ed_eleho@gw02 ~]$ hadoop fs -tail /user/ed_eleho/sqoop_import/retail_db/order_items/part-m-00000
+9.99
+43018,17200,797,5,89.95,17.99
+43019,17200,957,1,299.98,299.98
+43020,17200,797,1,17.99,17.99
+43021,17201,365,3,179.97,59.99
+43022,17201,627,2,79.98,39.99
+43023,17201,191,5,499.95,99.99
+43024,17201,924,3,47.97,15.99
+43025,17201,276,5,159.95,31.99
+43026,17202,191,5,499.95,99.99
+43027,17203,1014,2,99.96,49.98
+43028,17203,502,1,50.0,50.0
+43029,17203,1073,1,199.99,199.99
+43030,17204,191,2,199.98,99.99
+43031,17204,191,3,299.97,99.99
+43032,17204,1014,4,199.92,49.98
+43033,17204,403,1,129.99,129.99
+43034,17205,627,3,119.97,39.99
+43035,17205,957,1,299.98,299.98
+43036,17206,403,1,129.99,129.99
+43037,17206,1004,1,399.98,399.98
+43038,17206,1004,1,399.98,399.98
+43039,17206,825,1,31.99,31.99
+43040,17208,191,3,299.97,99.99
+43041,17208,365,4,239.96,59.99
+43042,17208,957,1,299.98,299.98
+43043,17208,1014,2,99.96,49.98
+43044,17209,893,2,49.98,24.99
+43045,17209,403,1,129.99,129.99
+43046,17209,1014,2,99.96,49.98
+43047,17209,502,3,150.0,50.0
+43048,17209,977,1,29.99,29.99
+43049,17210,502,1,50.0,50.0
+43050,17210,567,4,100.0,25.0
+[ed_eleho@gw02 ~]$
