@@ -1,0 +1,323 @@
+[ed_eleho@gw02 ~]$ sqoop import \
+>   --connect jdbc:mysql://ms.itversity.com:3306/retail_db \
+>   --username retail_user \
+>   -P \
+>   --table order_items_nopk \
+>   --warehouse-dir /user/ed_eleho/sqoop_import/retail_db
+20/07/23 08:35:34 INFO sqoop.Sqoop: Running Sqoop version: 1.4.6.2.6.5.0-292
+Enter password:
+20/07/23 08:35:41 INFO manager.MySQLManager: Preparing to use a MySQL streaming resultset.
+20/07/23 08:35:41 INFO tool.CodeGenTool: Beginning code generation
+20/07/23 08:35:42 INFO manager.SqlManager: Executing SQL statement: SELECT t.* FROM `order_items_nopk` AS t LIMIT 1
+20/07/23 08:35:42 INFO manager.SqlManager: Executing SQL statement: SELECT t.* FROM `order_items_nopk` AS t LIMIT 1
+20/07/23 08:35:42 INFO orm.CompilationManager: HADOOP_MAPRED_HOME is /usr/hdp/2.6.5.0-292/hadoop-mapreduce
+Note: /tmp/sqoop-ed_eleho/compile/c4b4d39e320c8c371425fa673a8df2a2/order_items_nopk.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+20/07/23 08:35:44 INFO orm.CompilationManager: Writing jar file: /tmp/sqoop-ed_eleho/compile/c4b4d39e320c8c371425fa673a8df2a2/order_items_nopk.jar
+20/07/23 08:35:44 WARN manager.MySQLManager: It looks like you are importing from mysql.
+20/07/23 08:35:44 WARN manager.MySQLManager: This transfer can be faster! Use the --direct
+20/07/23 08:35:44 WARN manager.MySQLManager: option to exercise a MySQL-specific fast path.
+20/07/23 08:35:44 INFO manager.MySQLManager: Setting zero DATETIME behavior to convertToNull (mysql)
+20/07/23 08:35:44 ERROR tool.ImportTool: Error during import: No primary key could be found for table order_items_nopk. Please specify one with --split-by or perform a sequential import with '-m 1'.
+[ed_eleho@gw02 ~]$ hadoop fs -ls /user/ed_eleho/sqoop_import/retail_db
+Found 1 items
+drwxr-xr-x   - ed_eleho hdfs          0 2020-07-22 11:08 /user/ed_eleho/sqoop_import/retail_db/order_items
+[ed_eleho@gw02 ~]$ sqoop eval \
+>   --connect jdbc:mysql://ms.itversity.com:3306/retail_db \
+>   --username retail_user \
+>   -P \
+>   --query "SELECT * FROM order_items_nopk LIMIT 10"
+20/07/23 08:56:41 INFO sqoop.Sqoop: Running Sqoop version: 1.4.6.2.6.5.0-292
+Enter password:
+20/07/23 08:56:48 INFO manager.MySQLManager: Preparing to use a MySQL streaming resultset.
+--------------------------------------------------------------------------------
+| order_item_id | order_item_order_id | order_item_product_id | order_item_quantity | order_item_subtotal | order_item_product_price |
+--------------------------------------------------------------------------------
+| 1           | 1           | 957         | 1    | 299.98       | 299.98       |
+| 2           | 2           | 1073        | 1    | 199.99       | 199.99       |
+| 3           | 2           | 502         | 5    | 250          | 50           |
+| 4           | 2           | 403         | 1    | 129.99       | 129.99       |
+| 5           | 4           | 897         | 2    | 49.98        | 24.99        |
+| 6           | 4           | 365         | 5    | 299.95       | 59.99        |
+| 7           | 4           | 502         | 3    | 150          | 50           |
+| 8           | 4           | 1014        | 4    | 199.92       | 49.98        |
+| 9           | 5           | 957         | 1    | 299.98       | 299.98       |
+| 10          | 5           | 365         | 5    | 299.95       | 59.99        |
+--------------------------------------------------------------------------------
+[ed_eleho@gw02 ~]$ sqoop import \
+>   --connect jdbc:mysql://ms.itversity.com:3306/retail_db \
+>   --username retail_user \
+>   -P \
+>   --table order_items_nopk \
+>   --warehouse-dir /user/ed_eleho/sqoop_import/retail_db \
+>   --split-by order_item_order_id
+20/07/23 08:59:20 INFO sqoop.Sqoop: Running Sqoop version: 1.4.6.2.6.5.0-292
+Enter password:
+20/07/23 08:59:37 INFO manager.MySQLManager: Preparing to use a MySQL streaming resultset.
+20/07/23 08:59:37 INFO tool.CodeGenTool: Beginning code generation
+20/07/23 08:59:37 INFO manager.SqlManager: Executing SQL statement: SELECT t.* FROM `order_items_nopk` AS t LIMIT 1
+20/07/23 08:59:37 INFO manager.SqlManager: Executing SQL statement: SELECT t.* FROM `order_items_nopk` AS t LIMIT 1
+20/07/23 08:59:37 INFO orm.CompilationManager: HADOOP_MAPRED_HOME is /usr/hdp/2.6.5.0-292/hadoop-mapreduce
+Note: /tmp/sqoop-ed_eleho/compile/0e79fd8d823bd1063c4bbd49dc24a68f/order_items_nopk.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+20/07/23 08:59:39 INFO orm.CompilationManager: Writing jar file: /tmp/sqoop-ed_eleho/compile/0e79fd8d823bd1063c4bbd49dc24a68f/order_items_nopk.jar
+20/07/23 08:59:39 WARN manager.MySQLManager: It looks like you are importing from mysql.
+20/07/23 08:59:39 WARN manager.MySQLManager: This transfer can be faster! Use the --direct
+20/07/23 08:59:39 WARN manager.MySQLManager: option to exercise a MySQL-specific fast path.
+20/07/23 08:59:39 INFO manager.MySQLManager: Setting zero DATETIME behavior to convertToNull (mysql)
+20/07/23 08:59:39 INFO mapreduce.ImportJobBase: Beginning import of order_items_nopk
+20/07/23 08:59:41 INFO client.RMProxy: Connecting to ResourceManager at rm01.itversity.com/172.16.1.106:8050
+20/07/23 08:59:41 INFO client.AHSProxy: Connecting to Application History server at rm01.itversity.com/172.16.1.106:10200
+20/07/23 08:59:49 INFO db.DBInputFormat: Using read commited transaction isolation
+20/07/23 08:59:49 INFO db.DataDrivenDBInputFormat: BoundingValsQuery: SELECT MIN(`order_item_order_id`), MAX(`order_item_order_id`) FROM `order_items_nopk`
+20/07/23 08:59:49 INFO db.IntegerSplitter: Split size: 17220; Num splits: 4 from: 1 to: 68883
+20/07/23 08:59:49 INFO mapreduce.JobSubmitter: number of splits:4
+20/07/23 08:59:50 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1589064448439_28782
+20/07/23 08:59:50 INFO impl.YarnClientImpl: Submitted application application_1589064448439_28782
+20/07/23 08:59:50 INFO mapreduce.Job: The url to track the job: http://rm01.itversity.com:19088/proxy/application_1589064448439_28782/
+20/07/23 08:59:50 INFO mapreduce.Job: Running job: job_1589064448439_28782
+20/07/23 08:59:57 INFO mapreduce.Job: Job job_1589064448439_28782 running in uber mode : false
+20/07/23 08:59:57 INFO mapreduce.Job:  map 0% reduce 0%
+20/07/23 09:00:03 INFO mapreduce.Job:  map 25% reduce 0%
+20/07/23 09:00:04 INFO mapreduce.Job:  map 50% reduce 0%
+20/07/23 09:00:05 INFO mapreduce.Job:  map 100% reduce 0%
+20/07/23 09:00:06 INFO mapreduce.Job: Job job_1589064448439_28782 completed successfully
+20/07/23 09:00:07 INFO mapreduce.Job: Counters: 30
+        File System Counters
+                FILE: Number of bytes read=0
+                FILE: Number of bytes written=679704
+                FILE: Number of read operations=0
+                FILE: Number of large read operations=0
+                FILE: Number of write operations=0
+                HDFS: Number of bytes read=557
+                HDFS: Number of bytes written=5408880
+                HDFS: Number of read operations=16
+                HDFS: Number of large read operations=0
+                HDFS: Number of write operations=8
+        Job Counters
+                Launched map tasks=4
+                Other local map tasks=4
+                Total time spent by all maps in occupied slots (ms)=36678
+                Total time spent by all reduces in occupied slots (ms)=0
+                Total time spent by all map tasks (ms)=18339
+                Total vcore-milliseconds taken by all map tasks=18339
+                Total megabyte-milliseconds taken by all map tasks=37558272
+        Map-Reduce Framework
+                Map input records=172198
+                Map output records=172198
+                Input split bytes=557
+                Spilled Records=0
+                Failed Shuffles=0
+                Merged Map outputs=0
+                GC time elapsed (ms)=191
+                CPU time spent (ms)=11120
+                Physical memory (bytes) snapshot=1107329024
+                Virtual memory (bytes) snapshot=15002279936
+                Total committed heap usage (bytes)=902823936
+        File Input Format Counters
+                Bytes Read=0
+        File Output Format Counters
+                Bytes Written=5408880
+20/07/23 09:00:07 INFO mapreduce.ImportJobBase: Transferred 5.1583 MB in 26.1696 seconds (201.8417 KB/sec)
+20/07/23 09:00:07 INFO mapreduce.ImportJobBase: Retrieved 172198 records.
+[ed_eleho@gw02 ~]$ hadoop fs -ls /user/ed_eleho/sqoop_import/retail_db
+Found 2 items
+drwxr-xr-x   - ed_eleho hdfs          0 2020-07-22 11:08 /user/ed_eleho/sqoop_import/retail_db/order_items
+drwxr-xr-x   - ed_eleho hdfs          0 2020-07-23 09:00 /user/ed_eleho/sqoop_import/retail_db/order_items_nopk
+[ed_eleho@gw02 ~]$ sqoop eval \
+>   --connect jdbc:mysql://ms.itversity.com:3306/retail_db \
+>   --username retail_user \
+>   -P \
+>   --query "SELECT * FROM orders LIMIT 10"
+20/07/23 09:06:57 INFO sqoop.Sqoop: Running Sqoop version: 1.4.6.2.6.5.0-292
+Enter password:
+20/07/23 09:07:03 INFO manager.MySQLManager: Preparing to use a MySQL streaming resultset.
+--------------------------------------------------------------------------
+| order_id    | order_date          | order_customer_id | order_status         |
+--------------------------------------------------------------------------
+| 1           | 2013-07-25 00:00:00.0 | 11599       | CLOSED               |
+| 2           | 2013-07-25 00:00:00.0 | 256         | PENDING_PAYMENT      |
+| 3           | 2013-07-25 00:00:00.0 | 12111       | COMPLETE             |
+| 4           | 2013-07-25 00:00:00.0 | 8827        | CLOSED               |
+| 5           | 2013-07-25 00:00:00.0 | 11318       | COMPLETE             |
+| 6           | 2013-07-25 00:00:00.0 | 7130        | COMPLETE             |
+| 7           | 2013-07-25 00:00:00.0 | 4530        | COMPLETE             |
+| 8           | 2013-07-25 00:00:00.0 | 2911        | PROCESSING           |
+| 9           | 2013-07-25 00:00:00.0 | 5657        | PENDING_PAYMENT      |
+| 10          | 2013-07-25 00:00:00.0 | 5648        | PENDING_PAYMENT      |
+--------------------------------------------------------------------------
+[ed_eleho@gw02 ~]$ sqoop import \
+>   --connect jdbc:mysql://ms.itversity.com:3306/retail_db \
+>   --username retail_user \
+>   -P \
+>   --table orders \
+>   --warehouse-dir /user/ed_eleho/sqoop_import/retail_db \
+>   --split-by order_status
+20/07/23 09:11:14 INFO sqoop.Sqoop: Running Sqoop version: 1.4.6.2.6.5.0-292
+Enter password:
+20/07/23 09:11:20 INFO manager.MySQLManager: Preparing to use a MySQL streaming resultset.
+20/07/23 09:11:20 INFO tool.CodeGenTool: Beginning code generation
+20/07/23 09:11:21 INFO manager.SqlManager: Executing SQL statement: SELECT t.* FROM `orders` AS t LIMIT 1
+20/07/23 09:11:21 INFO manager.SqlManager: Executing SQL statement: SELECT t.* FROM `orders` AS t LIMIT 1
+20/07/23 09:11:21 INFO orm.CompilationManager: HADOOP_MAPRED_HOME is /usr/hdp/2.6.5.0-292/hadoop-mapreduce
+Note: /tmp/sqoop-ed_eleho/compile/7e4b1c6c8f4bcfd94bfaf392d91e0a87/orders.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+20/07/23 09:11:23 INFO orm.CompilationManager: Writing jar file: /tmp/sqoop-ed_eleho/compile/7e4b1c6c8f4bcfd94bfaf392d91e0a87/orders.jar
+20/07/23 09:11:23 WARN manager.MySQLManager: It looks like you are importing from mysql.
+20/07/23 09:11:23 WARN manager.MySQLManager: This transfer can be faster! Use the --direct
+20/07/23 09:11:23 WARN manager.MySQLManager: option to exercise a MySQL-specific fast path.
+20/07/23 09:11:23 INFO manager.MySQLManager: Setting zero DATETIME behavior to convertToNull (mysql)
+20/07/23 09:11:23 INFO mapreduce.ImportJobBase: Beginning import of orders
+20/07/23 09:11:24 INFO client.RMProxy: Connecting to ResourceManager at rm01.itversity.com/172.16.1.106:8050
+20/07/23 09:11:25 INFO client.AHSProxy: Connecting to Application History server at rm01.itversity.com/172.16.1.106:10200
+20/07/23 09:11:33 INFO db.DBInputFormat: Using read commited transaction isolation
+20/07/23 09:11:33 INFO db.DataDrivenDBInputFormat: BoundingValsQuery: SELECT MIN(`order_status`), MAX(`order_status`) FROM `orders`
+20/07/23 09:11:33 INFO mapreduce.JobSubmitter: Cleaning up the staging area /user/ed_eleho/.staging/job_1589064448439_28783
+20/07/23 09:11:33 ERROR tool.ImportTool: Encountered IOException running import job: java.io.IOException: Generating splits for a textual index column allowed only in case of "-Dorg.apache.sqoop.splitter.allow_text_splitter=true" property passed as a parameter
+        at org.apache.sqoop.mapreduce.db.DataDrivenDBInputFormat.getSplits(DataDrivenDBInputFormat.java:204)
+        at org.apache.hadoop.mapreduce.JobSubmitter.writeNewSplits(JobSubmitter.java:301)
+        at org.apache.hadoop.mapreduce.JobSubmitter.writeSplits(JobSubmitter.java:318)
+        at org.apache.hadoop.mapreduce.JobSubmitter.submitJobInternal(JobSubmitter.java:196)
+        at org.apache.hadoop.mapreduce.Job$10.run(Job.java:1290)
+        at org.apache.hadoop.mapreduce.Job$10.run(Job.java:1287)
+        at java.security.AccessController.doPrivileged(Native Method)
+        at javax.security.auth.Subject.doAs(Subject.java:422)
+        at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1869)
+        at org.apache.hadoop.mapreduce.Job.submit(Job.java:1287)
+        at org.apache.hadoop.mapreduce.Job.waitForCompletion(Job.java:1308)
+        at org.apache.sqoop.mapreduce.ImportJobBase.doSubmitJob(ImportJobBase.java:200)
+        at org.apache.sqoop.mapreduce.ImportJobBase.runJob(ImportJobBase.java:173)
+        at org.apache.sqoop.mapreduce.ImportJobBase.runImport(ImportJobBase.java:270)
+        at org.apache.sqoop.manager.SqlManager.importTable(SqlManager.java:692)
+        at org.apache.sqoop.manager.MySQLManager.importTable(MySQLManager.java:127)
+        at org.apache.sqoop.tool.ImportTool.importTable(ImportTool.java:507)
+        at org.apache.sqoop.tool.ImportTool.run(ImportTool.java:615)
+        at org.apache.sqoop.Sqoop.run(Sqoop.java:147)
+        at org.apache.hadoop.util.ToolRunner.run(ToolRunner.java:76)
+        at org.apache.sqoop.Sqoop.runSqoop(Sqoop.java:183)
+        at org.apache.sqoop.Sqoop.runTool(Sqoop.java:225)
+        at org.apache.sqoop.Sqoop.runTool(Sqoop.java:234)
+        at org.apache.sqoop.Sqoop.main(Sqoop.java:243)
+Caused by: Generating splits for a textual index column allowed only in case of "-Dorg.apache.sqoop.splitter.allow_text_splitter=true" property passed as a parameter
+        at org.apache.sqoop.mapreduce.db.TextSplitter.split(TextSplitter.java:67)
+        at org.apache.sqoop.mapreduce.db.DataDrivenDBInputFormat.getSplits(DataDrivenDBInputFormat.java:201)
+        ... 23 more
+
+[ed_eleho@gw02 ~]$ sqoop import \
+>   -Dorg.apache.sqoop.splitter.allow_text_splitter=true \
+>   --connect jdbc:mysql://ms.itversity.com:3306/retail_db \
+>   --username retail_user \
+>   -P \
+>   --table orders \
+>   --warehouse-dir /user/ed_eleho/sqoop_import/retail_db \
+>   --split-by order_status
+20/07/23 09:14:18 INFO sqoop.Sqoop: Running Sqoop version: 1.4.6.2.6.5.0-292
+Enter password:
+20/07/23 09:14:24 INFO manager.MySQLManager: Preparing to use a MySQL streaming resultset.
+20/07/23 09:14:24 INFO tool.CodeGenTool: Beginning code generation
+20/07/23 09:14:25 INFO manager.SqlManager: Executing SQL statement: SELECT t.* FROM `orders` AS t LIMIT 1
+20/07/23 09:14:25 INFO manager.SqlManager: Executing SQL statement: SELECT t.* FROM `orders` AS t LIMIT 1
+20/07/23 09:14:25 INFO orm.CompilationManager: HADOOP_MAPRED_HOME is /usr/hdp/2.6.5.0-292/hadoop-mapreduce
+Note: /tmp/sqoop-ed_eleho/compile/7e30f34958de042e68fc023d181a7971/orders.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+20/07/23 09:14:26 INFO orm.CompilationManager: Writing jar file: /tmp/sqoop-ed_eleho/compile/7e30f34958de042e68fc023d181a7971/orders.jar
+20/07/23 09:14:26 WARN manager.MySQLManager: It looks like you are importing from mysql.
+20/07/23 09:14:26 WARN manager.MySQLManager: This transfer can be faster! Use the --direct
+20/07/23 09:14:26 WARN manager.MySQLManager: option to exercise a MySQL-specific fast path.
+20/07/23 09:14:26 INFO manager.MySQLManager: Setting zero DATETIME behavior to convertToNull (mysql)
+20/07/23 09:14:26 INFO mapreduce.ImportJobBase: Beginning import of orders
+20/07/23 09:14:27 INFO client.RMProxy: Connecting to ResourceManager at rm01.itversity.com/172.16.1.106:8050
+20/07/23 09:14:28 INFO client.AHSProxy: Connecting to Application History server at rm01.itversity.com/172.16.1.106:10200
+20/07/23 09:14:34 INFO db.DBInputFormat: Using read commited transaction isolation
+20/07/23 09:14:34 INFO db.DataDrivenDBInputFormat: BoundingValsQuery: SELECT MIN(`order_status`), MAX(`order_status`) FROM `orders`
+20/07/23 09:14:34 WARN db.TextSplitter: Generating splits for a textual index column.
+20/07/23 09:14:34 WARN db.TextSplitter: If your database sorts in a case-insensitive order, this may result in a partial import or duplicate records.
+20/07/23 09:14:34 WARN db.TextSplitter: You are strongly encouraged to choose an integral split column.
+20/07/23 09:14:35 INFO mapreduce.JobSubmitter: number of splits:5
+20/07/23 09:14:35 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1589064448439_28784
+20/07/23 09:14:36 INFO impl.YarnClientImpl: Submitted application application_1589064448439_28784
+20/07/23 09:14:36 INFO mapreduce.Job: The url to track the job: http://rm01.itversity.com:19088/proxy/application_1589064448439_28784/
+20/07/23 09:14:36 INFO mapreduce.Job: Running job: job_1589064448439_28784
+20/07/23 09:14:43 INFO mapreduce.Job: Job job_1589064448439_28784 running in uber mode : false
+20/07/23 09:14:43 INFO mapreduce.Job:  map 0% reduce 0%
+20/07/23 09:14:48 INFO mapreduce.Job:  map 20% reduce 0%
+20/07/23 09:14:50 INFO mapreduce.Job:  map 100% reduce 0%
+20/07/23 09:14:51 INFO mapreduce.Job: Job job_1589064448439_28784 completed successfully
+20/07/23 09:14:51 INFO mapreduce.Job: Counters: 30
+        File System Counters
+                FILE: Number of bytes read=0
+                FILE: Number of bytes written=849810
+                FILE: Number of read operations=0
+                FILE: Number of large read operations=0
+                FILE: Number of write operations=0
+                HDFS: Number of bytes read=736
+                HDFS: Number of bytes written=2999944
+                HDFS: Number of read operations=20
+                HDFS: Number of large read operations=0
+                HDFS: Number of write operations=10
+        Job Counters
+                Launched map tasks=5
+                Other local map tasks=5
+                Total time spent by all maps in occupied slots (ms)=44374
+                Total time spent by all reduces in occupied slots (ms)=0
+                Total time spent by all map tasks (ms)=22187
+                Total vcore-milliseconds taken by all map tasks=22187
+                Total megabyte-milliseconds taken by all map tasks=45438976
+        Map-Reduce Framework
+                Map input records=68883
+                Map output records=68883
+                Input split bytes=736
+                Spilled Records=0
+                Failed Shuffles=0
+                Merged Map outputs=0
+                GC time elapsed (ms)=236
+                CPU time spent (ms)=11980
+                Physical memory (bytes) snapshot=1361702912
+                Virtual memory (bytes) snapshot=18760507392
+                Total committed heap usage (bytes)=1126694912
+        File Input Format Counters
+                Bytes Read=0
+        File Output Format Counters
+                Bytes Written=2999944
+20/07/23 09:14:51 INFO mapreduce.ImportJobBase: Transferred 2.861 MB in 23.5826 seconds (124.2284 KB/sec)
+20/07/23 09:14:51 INFO mapreduce.ImportJobBase: Retrieved 68883 records.
+[ed_eleho@gw02 ~]$ hadoop fs -ls /user/ed_eleho/sqoop_import/retail_db
+Found 3 items
+drwxr-xr-x   - ed_eleho hdfs          0 2020-07-22 11:08 /user/ed_eleho/sqoop_import/retail_db/order_items
+drwxr-xr-x   - ed_eleho hdfs          0 2020-07-23 09:00 /user/ed_eleho/sqoop_import/retail_db/order_items_nopk
+drwxr-xr-x   - ed_eleho hdfs          0 2020-07-23 09:14 /user/ed_eleho/sqoop_import/retail_db/orders
+[ed_eleho@gw02 ~]$ hadoop fs -ls /user/ed_eleho/sqoop_import/retail_db/orders
+Found 6 items
+-rw-r--r--   2 ed_eleho hdfs          0 2020-07-23 09:14 /user/ed_eleho/sqoop_import/retail_db/orders/_SUCCESS
+-rw-r--r--   2 ed_eleho hdfs    1322282 2020-07-23 09:14 /user/ed_eleho/sqoop_import/retail_db/orders/part-m-00000
+-rw-r--r--   2 ed_eleho hdfs          0 2020-07-23 09:14 /user/ed_eleho/sqoop_import/retail_db/orders/part-m-00001
+-rw-r--r--   2 ed_eleho hdfs     155533 2020-07-23 09:14 /user/ed_eleho/sqoop_import/retail_db/orders/part-m-00002
+-rw-r--r--   2 ed_eleho hdfs    1445851 2020-07-23 09:14 /user/ed_eleho/sqoop_import/retail_db/orders/part-m-00003
+-rw-r--r--   2 ed_eleho hdfs      76278 2020-07-23 09:14 /user/ed_eleho/sqoop_import/retail_db/orders/part-m-00004
+[ed_eleho@gw02 ~]$ hadoop fs -tail /user/ed_eleho/sqoop_import/retail_db/orders/part-m-00000
+1 00:00:00.0,6938,COMPLETE
+68835,2014-05-02 00:00:00.0,764,COMPLETE
+68837,2014-05-07 00:00:00.0,1223,COMPLETE
+68839,2014-05-10 00:00:00.0,10090,COMPLETE
+68840,2014-05-11 00:00:00.0,4399,CLOSED
+68844,2014-05-17 00:00:00.0,443,COMPLETE
+68845,2014-05-18 00:00:00.0,6584,COMPLETE
+68847,2014-05-21 00:00:00.0,2543,COMPLETE
+68848,2014-05-22 00:00:00.0,6517,CLOSED
+68849,2014-05-23 00:00:00.0,2356,COMPLETE
+68850,2014-05-25 00:00:00.0,8451,COMPLETE
+68852,2014-05-29 00:00:00.0,4596,CLOSED
+68857,2014-06-04 00:00:00.0,312,COMPLETE
+68858,2014-06-06 00:00:00.0,10744,COMPLETE
+68859,2014-06-11 00:00:00.0,1428,COMPLETE
+68863,2014-06-16 00:00:00.0,3361,CLOSED
+68867,2014-06-23 00:00:00.0,869,CANCELED
+68870,2014-06-26 00:00:00.0,3343,COMPLETE
+68872,2014-06-29 00:00:00.0,3354,COMPLETE
+68874,2014-07-03 00:00:00.0,1601,COMPLETE
+68876,2014-07-06 00:00:00.0,4124,COMPLETE
+68878,2014-07-08 00:00:00.0,6753,COMPLETE
+68879,2014-07-09 00:00:00.0,778,COMPLETE
+68880,2014-07-13 00:00:00.0,1117,COMPLETE
+68883,2014-07-23 00:00:00.0,5533,COMPLETE
+[ed_eleho@gw02 ~]$ 
